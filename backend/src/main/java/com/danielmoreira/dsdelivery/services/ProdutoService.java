@@ -20,9 +20,7 @@ public class ProdutoService {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
-	Produto produto = new Produto();
-
-
+	
 	@Transactional(readOnly = true)
 	public List<ProdutoDto> findAll(){
 		List<Produto> list = produtoRepository.findAllByOrderByNomeAsc();
