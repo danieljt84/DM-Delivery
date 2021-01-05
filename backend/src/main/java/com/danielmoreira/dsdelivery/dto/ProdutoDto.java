@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import com.danielmoreira.dsdelivery.model.Produto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
-@Value
+@Data
 public class ProdutoDto implements Serializable {
 	/**
 	 * 
@@ -17,6 +19,10 @@ public class ProdutoDto implements Serializable {
 	private String descricao;
 	private String imagemUri;
 	private Double preco;
+	
+	public ProdutoDto() {
+		
+	}
 	
 	public ProdutoDto(Produto x) {
 		this.id=x.getId();

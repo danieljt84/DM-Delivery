@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 public class Pedido {
 
@@ -34,5 +35,23 @@ public class Pedido {
 	@ManyToMany
 	@JoinTable(name = "Pedido_Produto", joinColumns = @JoinColumn(name = "pedido_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	private Set<Produto> produtos = new HashSet<>();
+	
+	public Pedido(Long id, String endereco, Double latitude, Double longitude, Instant momento, StatusPedido status,
+			Double total) {
+		super();
+		this.id = id;
+		this.endereco = endereco;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.momento = momento;
+		this.status = status;
+		this.total = total;
+	}
+	
+	
+	
+
+
+	
 
 }
