@@ -1,6 +1,7 @@
 package com.danielmoreira.dsdelivery.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import com.danielmoreira.dsdelivery.dto.ProdutoDto;
 import com.danielmoreira.dsdelivery.form.PedidoForm;
 import com.danielmoreira.dsdelivery.model.Pedido;
 import com.danielmoreira.dsdelivery.model.Produto;
+import com.danielmoreira.dsdelivery.model.StatusPedido;
 import com.danielmoreira.dsdelivery.repository.PedidoRepository;
 import com.danielmoreira.dsdelivery.repository.ProdutoRepository;
 
@@ -40,5 +42,19 @@ public class PedidoService {
 		pedido = pedidoRepository.save(pedido);
 		return new PedidoDto(pedido);
 	}
+	
+	@Transactional
+	public PedidoDto alterar(Long id){
+		Optional<Pedido> optional = pedidoRepository.findById(id);
+		if(optional.isPresent()) {
+			Pedido pedido = pedidoRepository.getOne(id);
+			pedido.setStatus(StatusPedido.ENTREGUE);
+			return new PedidoDto(pedido);
+		}else {
+			return null;
+		}
+	}
+	
+	
 
 }

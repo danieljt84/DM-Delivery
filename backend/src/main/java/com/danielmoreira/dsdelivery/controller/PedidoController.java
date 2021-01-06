@@ -6,13 +6,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.danielmoreira.dsdelivery.dto.PedidoDto;
+import com.danielmoreira.dsdelivery.dto.ProdutoDto;
 import com.danielmoreira.dsdelivery.form.PedidoForm;
 import com.danielmoreira.dsdelivery.services.PedidoService;
 
@@ -32,6 +35,14 @@ public class PedidoController {
 	@PostMapping
 	public ResponseEntity<PedidoDto> salvar(@RequestBody PedidoForm form, UriComponentsBuilder uriBuilder) {
 		PedidoDto dto = pedidoService.salvar(form);
+		URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(dto.getId()).toUri();
+		return ResponseEntity.created(uri).body(dto);
+	}
+	
+	@PutMapping("/{id}/pedidos")
+	public ResponseEntity<PedidoDto> alterar(@PathVariable Long id, UriComponentsBuilder uriBuilder){
+		
+		PedidoDto dto = pedidoService.alterar(id);
 		URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
