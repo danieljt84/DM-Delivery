@@ -39,9 +39,9 @@ public class PedidoController {
 		return ResponseEntity.created(uri).body(dto);
 	}
 	
-	@PutMapping("/{id}/pedidos")
+	@PutMapping("/{id}")
 	public ResponseEntity<PedidoDto> alterar(@PathVariable Long id, UriComponentsBuilder uriBuilder){
-		
+		System.out.println(id);
 		PedidoDto dto = pedidoService.alterar(id);
 		URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
