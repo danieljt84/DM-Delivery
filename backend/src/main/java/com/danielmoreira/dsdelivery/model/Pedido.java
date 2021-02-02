@@ -12,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.data.repository.cdi.Eager;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,15 +34,16 @@ public class Pedido {
 	private Double latitude;
 	private Double longitude;
 	private Instant momento;
+	private Long telefone;
+	private String nome;
 	private StatusPedido status;
 	private Double total;
 	@ManyToMany
 	@JoinTable(name = "Pedido_Produto", joinColumns = @JoinColumn(name = "pedido_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	private Set<Produto> produtos = new HashSet<>();
-	
+
 	public Pedido(Long id, String endereco, Double latitude, Double longitude, Instant momento, StatusPedido status,
-			Double total) {
-		super();
+			String nome, Long telefone, Double total) {
 		this.id = id;
 		this.endereco = endereco;
 		this.latitude = latitude;
@@ -46,12 +51,8 @@ public class Pedido {
 		this.momento = momento;
 		this.status = status;
 		this.total = total;
+		this.nome=nome;
+		this.telefone=telefone;
 	}
-	
-	
-	
-
-
-	
 
 }

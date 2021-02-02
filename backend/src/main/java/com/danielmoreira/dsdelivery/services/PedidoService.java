@@ -26,6 +26,12 @@ public class PedidoService {
 	private ProdutoRepository produtoRepository;
 	
 	@Transactional(readOnly = true)
+	public PedidoDto buscarPedido(Long id){
+		Pedido pedido = pedidoRepository.getOne(id);
+		return new PedidoDto(pedido);
+	}
+	
+	@Transactional(readOnly = true)
 	public List<PedidoDto> findAll(){
 		List<Pedido> list = pedidoRepository.findPedidoComProduto();
 		return list.stream().map(x -> new PedidoDto(x)).collect(Collectors.toList());
@@ -34,9 +40,10 @@ public class PedidoService {
 	@Transactional
 	public PedidoDto salvar(PedidoForm form) {
 		Pedido pedido = form.converteForm();
+		System.out.println();
 		
-		for (ProdutoDto p : form.getProdutos()) {
-			Produto produto = produtoRepository.getOne(p.getId());
+		for (int i=0; i<form.getProdutosId().length;i++) {
+			Produto produto = produtoRepository.getOne(form.getProdutosId()[i]);
 			pedido.getProdutos().add(produto);
 		}
 		pedido = pedidoRepository.save(pedido);

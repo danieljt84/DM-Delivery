@@ -20,7 +20,9 @@ public class PedidoForm {
 	private Instant momento;
 	private StatusPedido status;
 	private Double total;
-	private Set<ProdutoDto> produtos;
+	private Long telefone;
+	private String nome;
+	private Long [] produtosId;
 	
 	
 	public Pedido converteForm(){
