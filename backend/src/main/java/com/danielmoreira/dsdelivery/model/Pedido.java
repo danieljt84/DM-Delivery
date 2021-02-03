@@ -1,9 +1,13 @@
 package com.danielmoreira.dsdelivery.model;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,10 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.springframework.data.repository.cdi.Eager;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyJoinColumn;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,9 +40,12 @@ public class Pedido {
 	private String nome;
 	private StatusPedido status;
 	private Double total;
-	@ManyToMany
-	@JoinTable(name = "Pedido_Produto", joinColumns = @JoinColumn(name = "pedido_id"), inverseJoinColumns = @JoinColumn(name = "produto_id"))
-	private Set<Produto> produtos = new HashSet<>();
+	
+	@ElementCollection
+	@MapKeyJoinColumn(name = "produto_id")
+	@Column(name = "quantidade")
+	@CollectionTable(name = "pedido_produto", joinColumns = @JoinColumn(name = "pedido_id"))
+	private Map<Produto, Integer> produtos = new HashMap<Produto, Integer>();
 
 	public Pedido(Long id, String endereco, Double latitude, Double longitude, Instant momento, StatusPedido status,
 			String nome, Long telefone, Double total) {
@@ -51,8 +56,8 @@ public class Pedido {
 		this.momento = momento;
 		this.status = status;
 		this.total = total;
-		this.nome=nome;
-		this.telefone=telefone;
+		this.nome = nome;
+		this.telefone = telefone;
 	}
 
 }
