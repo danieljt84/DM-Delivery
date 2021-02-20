@@ -17,8 +17,8 @@ public class ProdutoDto implements Serializable {
 	private Long id;
 	private String nome;
 	private String descricao;
+	private Double preco;	
 	private String imagemUri;
-	private Double preco;
 	
 	public ProdutoDto() {
 		
@@ -28,8 +28,12 @@ public class ProdutoDto implements Serializable {
 		this.id=x.getId();
 		this.descricao=x.getDescricao();
 		this.nome=x.getNome();
-		this.imagemUri = x.getImagemUri();
 		this.preco = x.getPreco();
+		this.imagemUri = x.getImagemUri();
+	}
+	
+	public Produto convertDto() {
+		return new Produto(this.id,this.descricao,this.nome,this.preco);
 	}
 
 }

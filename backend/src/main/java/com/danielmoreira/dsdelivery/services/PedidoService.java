@@ -22,8 +22,6 @@ public class PedidoService {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
-	@Autowired
-	private ProdutoRepository produtoRepository;
 	
 	@Transactional(readOnly = true)
 	public PedidoDto buscarPedido(Long id){
@@ -31,22 +29,19 @@ public class PedidoService {
 		return new PedidoDto(pedido);
 	}
 	
+	
 	@Transactional(readOnly = true)
 	public List<PedidoDto> findAll(){
 		List<Pedido> list = pedidoRepository.findPedidoComProduto();
 		return list.stream().map(x -> new PedidoDto(x)).collect(Collectors.toList());
 	}
 	
+	
 	@Transactional
 	public PedidoDto salvar(PedidoForm form) {
 		Pedido pedido = form.converteForm();
-		System.out.println();
-		
-		for (int i=0; i<form.getProdutosId().length;i++) {
-			Produto produto = produtoRepository.getOne(form.getProdutosId()[i]);
-			pedido.getProdutos().add(produto);
-		}
 		pedido = pedidoRepository.save(pedido);
+		System.out.println(pedido);
 		return new PedidoDto(pedido);
 	}
 	

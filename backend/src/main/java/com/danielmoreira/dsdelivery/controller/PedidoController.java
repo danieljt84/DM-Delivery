@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,11 +43,11 @@ public class PedidoController {
 
 	}
 
-	@PostMapping
-	public ResponseEntity<PedidoDto> salvar(@RequestBody PedidoForm form, UriComponentsBuilder uriBuilder) {
+	@PostMapping()
+	public ResponseEntity<Long> salvar(@RequestBody PedidoForm form, UriComponentsBuilder uriBuilder) {
 		PedidoDto dto = pedidoService.salvar(form);
 		URI uri = uriBuilder.path("/pedidos/{id}").buildAndExpand(dto.getId()).toUri();
-		return ResponseEntity.created(uri).body(dto);
+		return ResponseEntity.created(uri).body(dto.getId());
 	}
 
 	@PutMapping("/{id}")

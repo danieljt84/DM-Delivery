@@ -2,8 +2,11 @@ package com.danielmoreira.dsdelivery.dto;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.danielmoreira.dsdelivery.model.Item;
 import com.danielmoreira.dsdelivery.model.Pedido;
 import com.danielmoreira.dsdelivery.model.StatusPedido;
 
@@ -19,8 +22,7 @@ public class PedidoDto{
 	private Instant momento;
 	private StatusPedido status;
 	private Double total;
-	
-	private List<ProdutoDto> produtos;
+	private Set<ItemDto> itens;
 	
 	public PedidoDto(Pedido pedido) {
 		this.id=pedido.getId();
@@ -30,6 +32,10 @@ public class PedidoDto{
 		this.momento=pedido.getMomento();
 		this.status=pedido.getStatus();
 		this.total=pedido.getTotal();
-		this.produtos = pedido.getProdutos().stream().map(x -> new ProdutoDto(x)).collect(Collectors.toList());
+		this.itens = converteItens(pedido.getItens());
+	}
+	
+	public Set<ItemDto> converteItens(Set<Item> itens){
+		return itens.stream().map(ItemDto::new).collect(Collectors.toSet());
 	}
 }
